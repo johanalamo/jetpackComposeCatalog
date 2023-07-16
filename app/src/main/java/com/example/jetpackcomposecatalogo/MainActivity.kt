@@ -1,5 +1,6 @@
 package com.example.jetpackcomposecatalogo
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,10 +19,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,10 +44,41 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MyComplexLayout()
+                    MyStateExample()
                 }
             }
         }
+    }
+}
+
+@Composable
+@Preview(showSystemUi = true)
+fun MyStateExamplePreview() {
+    MyStateExample()
+}
+
+@Composable
+fun MyStateExample() {
+    var counter: MutableState<Int> = remember {mutableStateOf(0)}
+    println("avilan MyStateExample")
+    Column(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            counter.value++
+
+            println("avilan MyStateExample.click")
+        }) {
+            Text(text = "Pulsar ${counter.value}", onTextLayout = { println("avilan MyStateExample.text.pulsar.onRextLayout") })
+        }
+        Text(text = "He sido pulsado ${counter.value} veces",
+        onTextLayout = {
+            println("avilan MyStateExample.text.onRextLayout")
+        }
+            )
+
     }
 }
 
