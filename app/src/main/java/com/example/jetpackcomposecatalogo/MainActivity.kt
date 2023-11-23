@@ -48,6 +48,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposecatalogo.ui.composables.CheckBoxSimpleExample
 import com.example.jetpackcomposecatalogo.ui.composables.MyHoistingStateWithCheckBox
+import com.example.jetpackcomposecatalogo.ui.composables.MyRadioButton
+import com.example.jetpackcomposecatalogo.ui.composables.MyRadioButtonExample
 import com.example.jetpackcomposecatalogo.ui.composables.TristateCheckBoxSimpleExample
 import com.example.jetpackcomposecatalogo.ui.theme.JetpackComposeCatalogoTheme
 
@@ -67,6 +69,8 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         item {
+                            MyRadioButtonExample()
+                            Separator()
                             TristateCheckBoxSimpleExample()
                             Separator()
                             CheckBoxSimpleExample()
