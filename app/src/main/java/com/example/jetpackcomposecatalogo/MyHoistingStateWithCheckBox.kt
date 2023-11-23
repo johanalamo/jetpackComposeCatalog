@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -27,19 +29,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
-data class CheckboxElement(
-    val title: String,
-    var checked: MutableState<Boolean> = mutableStateOf(false),
-)
+// ****************************** simple checkbox ****************************************
 @Composable
 fun CheckBoxSimpleExample() {
-
     var state by rememberSaveable { mutableStateOf(false) }
-
     Column() {
         Text("Checkbox simple example")
-        Row( verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
                 checked = state,
                 onCheckedChange = { state = !state },
@@ -53,23 +49,48 @@ fun CheckBoxSimpleExample() {
     }
 }
 
+// ****************************** tristate checkbox ****************************************
 @Composable
-fun CheckboxWithText(state: Boolean, text: String, onCheckedChange: (Boolean) -> Unit) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(checked = state, onCheckedChange = onCheckedChange)
-        Text(text)
+fun TristateCheckBoxSimpleExample() {
+    var state by rememberSaveable { mutableStateOf(ToggleableState.Off) }
+    Column() {
+        Text(
+            "Tri state check boxes", style = TextStyle(
+
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Bold,
+                fontStyle = FontStyle.Italic,
+                fontSize = 16.sp,
+                textDecoration = TextDecoration.combine(listOf(TextDecoration.Underline))
+            )
+        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            TriStateCheckbox(state = state, onClick = {
+                state = when (state) {
+                    ToggleableState.On -> ToggleableState.Off
+                    ToggleableState.Off -> ToggleableState.Indeterminate
+                    ToggleableState.Indeterminate -> ToggleableState.On
+                }
+            })
+            Text(text = "Tristate checkbox")
+        }
     }
 }
+
+// ****************************** list of checkboxes ****************************************
 
 data class CheckInfo(
     val title: String,
     var selected: Boolean = false,
     var onCheckedChange: (Boolean) -> Unit,
 )
+
 @Composable
 fun CheckBoxWithText(checkInfo: CheckInfo) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(checked = checkInfo.selected, onCheckedChange = { checkInfo.onCheckedChange(!checkInfo.selected)})
+        Checkbox(
+            checked = checkInfo.selected,
+            onCheckedChange = { checkInfo.onCheckedChange(!checkInfo.selected) })
         Text(checkInfo.title)
     }
 }
@@ -81,13 +102,15 @@ fun MyHoistingStateWithCheckBox() {
     }
 
     Column() {
-        Text("Hoisting state with check boxes", style = TextStyle(
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.Bold,
-            fontStyle = FontStyle.Italic,
-            fontSize = 16.sp,
-            textDecoration = TextDecoration.combine(listOf(TextDecoration.Underline))
-        ))
+        Text(
+            "Hoisting state with check boxes", style = TextStyle(
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Bold,
+                fontStyle = FontStyle.Italic,
+                fontSize = 16.sp,
+                textDecoration = TextDecoration.combine(listOf(TextDecoration.Underline))
+            )
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Text("What colors do you like?")
 
@@ -104,7 +127,7 @@ fun MyHoistingStateWithCheckBox() {
                     result += " ${it.title}"
             }
         }) {
-            Text ("check options")
+            Text("check options")
         }
         Text(text = result)
     }
@@ -117,7 +140,7 @@ fun getOptions(colors: List<String>): List<CheckInfo> {
         CheckInfo(
             it,
             selected = status,
-            onCheckedChange = { status = it}
+            onCheckedChange = { status = it }
         )
     }
 }
