@@ -1,4 +1,4 @@
-package com.example.jetpackcomposecatalogo.ui.composables
+package com.example.jetpackcomposecatalogo.catalog.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

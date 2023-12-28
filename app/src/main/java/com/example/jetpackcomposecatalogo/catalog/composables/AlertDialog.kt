@@ -1,4 +1,4 @@
-package com.example.jetpackcomposecatalogo.ui.composables
+package com.example.jetpackcomposecatalogo.catalog.composables
 
 import android.util.Log
 import androidx.annotation.DrawableRes
@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.jetpackcomposecatalogo.R
 
 @Composable
 fun MyAlertDialogExample() {
@@ -147,8 +148,8 @@ fun DialogAdvancedExample(show: Boolean, confirmAction: () -> Unit, dismissActio
             ) {
                 DialogTitle(text = "Set backup account")
                 AccountItem(email = "johan.alamo@gmail.com",
-                    image = com.example.jetpackcomposecatalogo.R.drawable.ic_launcher_foreground)
-                AccountItem(email = "johan.alamo@hotmail.com", image = com.example.jetpackcomposecatalogo.R.drawable.ic_launcher_foreground)
+                    image = R.drawable.ic_launcher_foreground)
+                AccountItem(email = "johan.alamo@hotmail.com", image = R.drawable.ic_launcher_foreground)
 
             }
         }

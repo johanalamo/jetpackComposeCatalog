@@ -38,7 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -55,66 +55,47 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.jetpackcomposecatalogo.ui.composables.CheckBoxSimpleExample
-import com.example.jetpackcomposecatalogo.ui.composables.MyAlertDialogExample
-import com.example.jetpackcomposecatalogo.ui.composables.MyDropDownMenuExample
-import com.example.jetpackcomposecatalogo.ui.composables.MyHoistingStateWithCheckBox
-import com.example.jetpackcomposecatalogo.ui.composables.MyRadioButton
-import com.example.jetpackcomposecatalogo.ui.composables.MyRadioButtonExample
-import com.example.jetpackcomposecatalogo.ui.composables.MyRangeSliderExample
-import com.example.jetpackcomposecatalogo.ui.composables.MySliderExample
-import com.example.jetpackcomposecatalogo.ui.composables.TristateCheckBoxSimpleExample
+import com.example.jetpackcomposecatalogo.catalog.CatalogScreen
+import com.example.jetpackcomposecatalogo.catalog.composables.CheckBoxSimpleExample
+import com.example.jetpackcomposecatalogo.catalog.composables.MyAlertDialogExample
+import com.example.jetpackcomposecatalogo.catalog.composables.MyDropDownMenuExample
+import com.example.jetpackcomposecatalogo.catalog.composables.MyHoistingStateWithCheckBox
+import com.example.jetpackcomposecatalogo.catalog.composables.MyRadioButton
+import com.example.jetpackcomposecatalogo.catalog.composables.MyRadioButtonExample
+import com.example.jetpackcomposecatalogo.catalog.composables.MyRangeSliderExample
+import com.example.jetpackcomposecatalogo.catalog.composables.MySliderExample
+import com.example.jetpackcomposecatalogo.catalog.composables.TristateCheckBoxSimpleExample
+import com.example.jetpackcomposecatalogo.login.LoginScreen
+import com.example.jetpackcomposecatalogo.main.MainScreen
 import com.example.jetpackcomposecatalogo.ui.theme.JetpackComposeCatalogoTheme
 
 
 enum class Screen {
+    Main,
     Login,
     Catalog,
 }
 
 
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposeCatalogoTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    LazyColumn(
-                        Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        item {
-                            MyAlertDialogExample()
-                            Separator()
-                            MyRangeSliderExample()
-                            Separator()
-                            MySliderExample()
-                            Separator()
-                            MyDropDownMenuExample()
-                            Separator()
-                            MyRadioButtonExample()
-                            Separator()
-                            TristateCheckBoxSimpleExample()
-                            Separator()
-                            CheckBoxSimpleExample()
-                            Separator()
-                            MyHoistingStateWithCheckBox()
-                            Separator()
-                            MyImageAdvanced()
-                            Separator()
-                            MyIcon()
-                            Separator()
-                            MyTextFieldAdvanced()
-                            Separator()
-                            MyComplexLayout()
-                        }
-                    }
+                var currentScreen by rememberSaveable {
+                    mutableStateOf(Screen.Main)
                 }
+                val updateCurrentScreen: (Screen) -> Unit  = {
+                    currentScreen = it
+                }
+                when (currentScreen) {
+                    Screen.Main -> MainScreen(updateCurrentScreen)
+                    Screen.Login -> LoginScreen()
+                    Screen.Catalog -> CatalogScreen()
+                }
+
             }
         }
     }
