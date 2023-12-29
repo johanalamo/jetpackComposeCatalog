@@ -1,6 +1,7 @@
 package com.example.jetpackcomposecatalogo.login
 
 import android.app.Activity
+import android.util.Patterns
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -111,13 +112,19 @@ private fun Header(modifier: Modifier) {
 private fun Body(modifier: Modifier) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
-    var isLoginEnable by rememberSaveable { mutableStateOf(true) }
+    var isLoginEnable by rememberSaveable { mutableStateOf(false) }
     Column(modifier = modifier) {
         ImageLogo(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.height(16.dp))
-        Email(email) { email = it }
+        Email(email) {
+            email = it
+            isLoginEnable = enableLogin(email, password)
+        }
         Spacer(modifier = Modifier.height(16.dp))
-        Password(password) { password = it }
+        Password(password) {
+            password = it
+            isLoginEnable = enableLogin(email, password)
+        }
         Spacer(modifier = Modifier.height(16.dp))
         ForgotPassword(Modifier.align(Alignment.End))
         LoginButton(isLoginEnable)
@@ -127,6 +134,8 @@ private fun Body(modifier: Modifier) {
         SocialLogin()
     }
 }
+
+fun enableLogin(email: String, password: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length >= 6
 
 @Composable
 fun SocialLogin() {
@@ -179,7 +188,7 @@ fun LoginButton(loginEnable: Boolean) {
         enabled = loginEnable,
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xff78c8f9),
+            containerColor = Color(0xff4ea8e9),
             disabledContainerColor = Color(0xff78c8f9),
             contentColor = Color.White,
             disabledContentColor = Color.White,
